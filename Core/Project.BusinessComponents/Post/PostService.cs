@@ -1,10 +1,8 @@
-﻿using Angular4.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using DataAccess.Models;
 using System.Threading.Tasks;
 
-namespace Services.Services
+namespace BusinessComponents.Services
 {
     public class PostService : IPostService
     {

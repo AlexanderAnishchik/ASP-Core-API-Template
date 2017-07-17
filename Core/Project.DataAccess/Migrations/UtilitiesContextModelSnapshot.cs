@@ -1,9 +1,7 @@
-﻿using System;
+﻿using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Angular4.Models;
 
 namespace Angular4.Migrations
 {

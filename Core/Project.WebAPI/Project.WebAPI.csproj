@@ -16,7 +16,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Services\Project.BusinessComponents.csproj" />
+    <ProjectReference Include="..\Project.BusinessComponents\Project.BusinessComponents.csproj" />
   </ItemGroup>
 
 </Project>

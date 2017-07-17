@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.DatabaseInitializer
+namespace BusinessComponents.DatabaseInitializer
 {
     public enum DatabaseProvidersEnum
     {

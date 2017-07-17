@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BusinessComponents.DatabaseInitializer;
+using BusinessComponents.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Angular4.Models;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Microsoft.Extensions.FileProviders;
-using MySQL.Data.EntityFrameworkCore.Extensions;
-using Angular4.Services.DB;
-using Services.Services;
-using Services.DatabaseInitializer;
 
 namespace Angular4
 {

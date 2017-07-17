@@ -1,15 +1,10 @@
-﻿using Angular4.Models;
+﻿using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MySQL.Data.EntityFrameworkCore.Extensions;
-using Services.DatabaseInitializer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Angular4.Services.DB
+namespace BusinessComponents.DatabaseInitializer
 {
     //
     // Summary:
