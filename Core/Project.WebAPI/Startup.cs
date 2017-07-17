@@ -1,10 +1,10 @@
-﻿using BusinessComponents.DatabaseInitializer;
-using BusinessComponents.Services;
+﻿using BusinessComponents.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DependencyInjections.DatabaseInitializer;
 
 namespace Angular4
 {
@@ -29,7 +29,7 @@ namespace Angular4
             services.AddMvc();
 
             services.AddTransient<IPostService, PostService>();
-            services.AddDatabaseContext(DatabaseProvidersEnum.SqlServer,Configuration.GetConnectionString("SQLServerConnection"));
+            services.AddDatabaseContext(DatabaseProvidersEnum.SqlServer, Configuration.GetConnectionString("SQLServerConnection"));
 
 
             // services.AddDatabaseContext<UtilitiesContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));

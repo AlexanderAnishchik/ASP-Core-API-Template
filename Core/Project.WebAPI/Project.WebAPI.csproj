@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Project.BusinessComponents\Project.BusinessComponents.csproj" />
+    <ProjectReference Include="..\Project.DependencyInjections\Project.DependencyInjections.csproj" />
   </ItemGroup>
 
 </Project>
