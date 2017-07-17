@@ -1,3 +1,13 @@
-/Angular4/node_modules
-/Angular4/bin
-/Angular4/obj
+/Core/Project.WebAPI/bin
+/Core/Project.WebAPI/obj
+/Angular/Project.Site/obj
+/Angular/Project.Site/bin
+/Angular/Project.Site/node_modules
+/Core/Project.WebAPI/node_modules
+/Core/Project.Entities/bin
+/Core/Project.Entities/obj
+/Core/Project.BusinessComponents/bin
+/Core/Project.BusinessComponents/obj
+/Core/Project.DataAccess/bin
+/Core/Project.DataAccess/obj
+
