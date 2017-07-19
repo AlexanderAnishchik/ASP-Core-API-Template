@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DependencyInjections.DatabaseInitializer;
+using DependencyInjections.DataAccessDIExtensions;
+using DependencyInjections.BusinessComponentsDIExteinsions;
 
 namespace Angular4
 {
@@ -12,11 +14,11 @@ namespace Angular4
     {
         public Startup(IHostingEnvironment env)
         {
-           var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(env.ContentRootPath)
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -27,11 +29,11 @@ namespace Angular4
         {
             // Add framework services.
             services.AddMvc();
+            services.AddCors();
 
-            services.AddTransient<IPostService, PostService>();
+            //Add custom business components
+            services.AddBusinessComponents();
             services.AddDatabaseContext(DatabaseProvidersEnum.SqlServer, Configuration.GetConnectionString("SQLServerConnection"));
-
-
             // services.AddDatabaseContext<UtilitiesContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));
             // services.AddDatabaseContext<UtilitiesContext>(options => options.UseSqlite(Configuration.GetConnectionString("SQLiteConnection")));
             //services.AddDatabaseContext<UtilitiesContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection")));
