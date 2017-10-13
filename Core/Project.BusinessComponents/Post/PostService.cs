@@ -1,5 +1,5 @@
 ﻿
-using DataAccess.Models;
+using Domain.Models;
 using System.Threading.Tasks;
 
 namespace BusinessComponents.Services

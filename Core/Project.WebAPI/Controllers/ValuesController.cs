@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Entities;
+using BusinessComponents.Services;
 
-namespace Angular4.Controllers
+namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class PostController : Controller
     {
+        private readonly IPostService _postService;
+
+        public PostController(IPostService postService)
+        {
+            postService = _postService;
+        }
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -18,15 +27,21 @@ namespace Angular4.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public PostEntity Get(string id)
         {
-            return "value";
+            return new PostEntity();
         }
-
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Produces(typeof(PostEntity))]
+        public async Task<IActionResult> Post([FromBody]PostEntity value)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await _postService.AddEmptyPostAsync();
+            return CreatedAtAction("Get", new { id = 5 }, value);
         }
 
         // PUT api/values/5

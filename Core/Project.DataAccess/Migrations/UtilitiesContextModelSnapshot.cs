@@ -1,9 +1,9 @@
-﻿using DataAccess.Models;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Angular4.Migrations
+namespace WebApi.Migrations
 {
     [DbContext(typeof(UtilitiesContext))]
     partial class UtilitiesContextModelSnapshot : ModelSnapshot

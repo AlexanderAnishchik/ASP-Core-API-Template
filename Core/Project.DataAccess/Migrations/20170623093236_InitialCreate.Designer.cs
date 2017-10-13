@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using DataAccess.Models;
+using Domain.Models;
 
-namespace Angular4.Migrations
+namespace WebApi.Migrations
 {
     [DbContext(typeof(UtilitiesContext))]
     [Migration("20170623093236_InitialCreate")]

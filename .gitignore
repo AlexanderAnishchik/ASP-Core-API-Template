@@ -13,3 +13,5 @@
 
 /Core/Project.DependencyInjections/bin
 /Core/Project.DependencyInjections/obj
+/Core/XUnitTestProject/bin
+/Core/XUnitTestProject/obj

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Angular4.Migrations
+namespace WebApi.Migrations
 {
     public partial class InitialCreate : Migration
     {

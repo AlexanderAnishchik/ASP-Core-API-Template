@@ -1,4 +1,5 @@
-﻿using DataAccess.Models;
+﻿using Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,15 +7,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace DataAccess.Models
+namespace Domain.Models
 {
-    public class UtilitiesContext : DbContext
+    public class UtilitiesContext : IdentityDbContext
     {
         public UtilitiesContext(DbContextOptions options) : base(options)
         {
+            
         }
         public DbSet<Post> Posts { get; set; }
 
     }
-    
+
 }
