@@ -15,7 +15,7 @@ namespace WebApi
         {
             BuildWebHost(args).Run();
         }
-        private static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
               WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();

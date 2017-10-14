@@ -1,5 +1,8 @@
 ﻿
 using Domain.Models;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusinessComponents.Services
@@ -16,6 +19,11 @@ namespace BusinessComponents.Services
         {
            await _context.Posts.AddAsync(new Post());
            await _context.SaveChangesAsync();
+        }
+
+        public Task<List<Post>> GetPostsAsync()
+        {
+            return Task.FromResult<List<Post>>(_context.Posts.ToList());
         }
     }
 }

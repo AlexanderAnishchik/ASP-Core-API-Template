@@ -1,5 +1,4 @@
 ﻿using BusinessComponents.Services;
-using Domain.DatabaseInitializer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

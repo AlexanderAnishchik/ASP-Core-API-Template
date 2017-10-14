@@ -7,10 +7,11 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebApi.DependencyInjections.ServiceComponents;
 using WebApi.DependencyInjections.DatabaseIdentity;
-using Domain;
 using Domain.Models;
-using Microsoft.AspNetCore.Identity;
-using Domain.DatabaseInitializer;
+using Microsoft.EntityFrameworkCore;
+using Project.WebAPI;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi
 {
@@ -25,29 +26,48 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme() { In = "header", Description = "Please insert JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
             });
 
-            //Add custom business components
+            services.Configure<JWTOptions>(Configuration);
+
+            // Setup services
             services.AddBusinessComponents();
-            services.AddDbContext<UtilitiesContext>(provider =>
+
+            // Setup database context
+            services.AddDbContext<UtilitiesContext>(provider => provider.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
+
+            //services.AddDbContext<UtilitiesContext>(provider => provider.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));
+            //services.AddDbContext<UtilitiesContext>(provider => provider.UseSqlite(Configuration.GetConnectionString("SQLiteConnection")));
+            //services.AddDbContext<UtilitiesContext>(provider => provider.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection")));
+
+            // Setup Identity (UserManager, Roles etc.)
+            services.SetupIdentity();
+
+            //Setup JWT Authorization
+            services.AddAuthentication(options =>
             {
-                DatabaseContextConfiguration.SetupSqlServer(provider, Configuration.GetConnectionString("SQLServerConnection"));
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.IncludeErrorDetails = true;
+                o.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateActor = false,
+                    ValidIssuer = Configuration["secretJWTKeyIssuer"],
+                    ValidAudience = Configuration["secretJWTKeyAudience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["secretJWTKey"])),
+                    ValidateLifetime = true,
+                };
+
             });
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                        .AddEntityFrameworkStores<UtilitiesContext>();
-
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.Audience = "http://localhost:5001/";
-                        options.Authority = "http://localhost:5000/";
-                    });
+            // Setup MVC services (Route Handling, CORS etc.)
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,13 +80,15 @@ namespace WebApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            app.UseAuthentication();
+
         }
     }
 }
