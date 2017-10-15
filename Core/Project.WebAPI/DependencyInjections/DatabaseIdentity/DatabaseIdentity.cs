@@ -29,10 +29,10 @@ namespace WebApi.DependencyInjections.DatabaseIdentity
                 opt.Password.RequireLowercase = true;
             }
         );
-            builder = new IdentityBuilder(builder.UserType, typeof(CustomRole), builder.Services);
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<UtilitiesContext>();
-            builder.AddRoleValidator<RoleValidator<CustomRole>>();
-            builder.AddRoleManager<RoleManager<CustomRole>>();
+            builder.AddRoleValidator<RoleValidator<IdentityRole>>();
+            builder.AddRoleManager<RoleManager<IdentityRole>>();
             builder.AddSignInManager<SignInManager<ApplicationUser>>();
 
         }

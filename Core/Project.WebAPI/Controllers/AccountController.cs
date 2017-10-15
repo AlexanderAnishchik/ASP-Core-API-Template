@@ -18,6 +18,8 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Project.WebAPI;
 using Microsoft.Extensions.Options;
+using Project.Domain.Identity;
+using Project.Services.AuthorizationService;
 
 namespace WebApi.Controllers
 {
@@ -27,14 +29,17 @@ namespace WebApi.Controllers
         private readonly IPostService _postService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly IOptions<JWTOptions> _jwtAccessor;
-
-        public AccountController(IPostService postService, 
-            UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+        private readonly IConsumerAuthorizationService _authorizationService;
+        public AccountController(IPostService postService,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IPasswordHasher<ApplicationUser> passwordHasher,
-            IOptions<JWTOptions> jwtAccessor
+            IOptions<JWTOptions> jwtAccessor,
+            RoleManager<IdentityRole> roleManager,
+            IConsumerAuthorizationService authorizationService
             )
         {
             _postService = postService;
@@ -42,71 +47,39 @@ namespace WebApi.Controllers
             _signInManager = signInManager;
             _passwordHasher = passwordHasher;
             _jwtAccessor = jwtAccessor;
+            _roleManager = roleManager;
+            _authorizationService = authorizationService;
         }
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody]LoginModel model)
+        public async Task<IActionResult> Register([FromBody]AuthModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _authorizationService.RegisterUserAsync(model);
             return result.Succeeded ? (IActionResult)Ok() : (IActionResult)BadRequest("Invalid login attempt.");
         }
         [HttpPost]
         [AllowAnonymous]
         [Route("token")]
-        public async Task<IActionResult> Login([FromBody]LoginModel model)
+        public async Task<IActionResult> Login([FromBody]AuthModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var user = await _userManager.FindByNameAsync(model.Email);
-            if (user == null)
+            var result = await _authorizationService.GenerateTokenAsync(model, _jwtAccessor.Value.secretJWTKey, _jwtAccessor.Value.secretJWTKeyIssuer, _jwtAccessor.Value.secretJWTKeyAudience);
+            if (!result.IsAuthorized) { return Unauthorized(); }
+            return Ok(new
             {
-                return Unauthorized();
-            }
-            if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
-            {
-                var userClaims = await _userManager.GetClaimsAsync(user);
-                var claims = new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                }.Union(userClaims);
-                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtAccessor.Value.secretJWTKey));
-                var signinCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-                var jwtSecurityToken = new JwtSecurityToken(
-                    issuer: _jwtAccessor.Value.secretJWTKeyIssuer,
-                    audience: _jwtAccessor.Value.secretJWTKeyAudience,
-                    
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddYears(1),
-                    signingCredentials: signinCredentials);
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                    expiration = jwtSecurityToken.ValidTo
+                token = new JwtSecurityTokenHandler().WriteToken(result.token),
+                expiration = result.token.ValidTo
 
-                });
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-        public class LoginModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-            [Required]
-            public string Password { get; set; }
-
+            });
         }
     }
 }
+

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WebApi.Controllers
 {
-    [Authorize()]
+    [Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {

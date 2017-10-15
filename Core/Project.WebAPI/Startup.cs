@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Project.WebAPI;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Project.Domain.Identity;
 
 namespace WebApi
 {
@@ -79,6 +80,7 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+          
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc();
