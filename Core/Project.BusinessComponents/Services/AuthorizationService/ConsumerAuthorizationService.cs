@@ -17,25 +17,19 @@ namespace Project.Services.AuthorizationService
     public class ConsumerAuthorizationService : IConsumerAuthorizationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         public readonly UtilitiesContext _context;
-        //  private readonly IOptions<JWTOptions> _jwtAccessor;
 
         public ConsumerAuthorizationService(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
             IPasswordHasher<ApplicationUser> passwordHasher,
-            //  IOptions<JWTOptions> jwtAccessor,
             RoleManager<IdentityRole> roleManager,
             UtilitiesContext context
             )
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _passwordHasher = passwordHasher;
-            //  _jwtAccessor = jwtAccessor;
             _roleManager = roleManager;
             _context = context;
         }

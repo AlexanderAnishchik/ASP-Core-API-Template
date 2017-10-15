@@ -26,28 +26,12 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly IPostService _postService;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+
         private readonly IOptions<JWTOptions> _jwtAccessor;
         private readonly IConsumerAuthorizationService _authorizationService;
-        public AccountController(IPostService postService,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IPasswordHasher<ApplicationUser> passwordHasher,
-            IOptions<JWTOptions> jwtAccessor,
-            RoleManager<IdentityRole> roleManager,
-            IConsumerAuthorizationService authorizationService
-            )
+        public AccountController(IOptions<JWTOptions> jwtAccessor, IConsumerAuthorizationService authorizationService)
         {
-            _postService = postService;
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _passwordHasher = passwordHasher;
             _jwtAccessor = jwtAccessor;
-            _roleManager = roleManager;
             _authorizationService = authorizationService;
         }
         [HttpPost]
