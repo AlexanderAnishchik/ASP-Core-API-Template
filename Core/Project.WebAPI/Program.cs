@@ -18,7 +18,7 @@ namespace WebApi
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
-            EnsureDatabaseInitialized(host);
+            //EnsureDatabaseInitialized(host);
             host.Run();
 
         }
