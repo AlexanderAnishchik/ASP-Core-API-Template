@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  project.webapi:
+    image: project.webapi
+    build:
+      context: ./Project.WebAPI
+      dockerfile: Dockerfile

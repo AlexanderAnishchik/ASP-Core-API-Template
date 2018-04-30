@@ -5615,33 +5615,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Sanya\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/root/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "F:\\Core-Angular4-Template\\Core\\XUnitTestProject\\XUnitTestProject.csproj",
+      "projectUniqueName": "/src/XUnitTestProject/XUnitTestProject.csproj",
       "projectName": "XUnitTestProject",
-      "projectPath": "F:\\Core-Angular4-Template\\Core\\XUnitTestProject\\XUnitTestProject.csproj",
-      "packagesPath": "C:\\Users\\Sanya\\.nuget\\packages\\",
-      "outputPath": "F:\\Core-Angular4-Template\\Core\\XUnitTestProject\\obj\\",
+      "projectPath": "/src/XUnitTestProject/XUnitTestProject.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/src/XUnitTestProject/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Sanya\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5658,22 +5653,23 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "xunit.runner.visualstudio": {
+          "Microsoft.NET.Test.Sdk": {
             "target": "Package",
-            "version": "2.2.0"
+            "version": "[15.3.0-preview-20170628-02, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
-            "version": "2.0.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
           },
           "xunit": {
             "target": "Package",
-            "version": "2.2.0"
+            "version": "[2.2.0, )"
           },
-          "Microsoft.NET.Test.Sdk": {
+          "xunit.runner.visualstudio": {
             "target": "Package",
-            "version": "15.3.0-preview-20170628-02"
+            "version": "[2.2.0, )"
           }
         },
         "imports": [

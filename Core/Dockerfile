@@ -1,8 +1,7 @@
-FROM microsoft/dotnet:2.0.5-sdk-2.1.4 AS base
+FROM microsoft/aspnetcore-build:latest AS base
 WORKDIR /app
-EXPOSE 3452
 
-FROM microsoft/dotnet:2.0.5-sdk-2.1.4 AS build
+FROM microsoft/aspnetcore-build:latest AS build
 WORKDIR /src
 COPY . .
 RUN dotnet restore -nowarn:msb3202,nu1503
@@ -15,4 +14,6 @@ RUN dotnet publish --no-restore -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+EXPOSE 80
+RUN ls
 ENTRYPOINT ["dotnet", "Project.WebAPI.dll"]
