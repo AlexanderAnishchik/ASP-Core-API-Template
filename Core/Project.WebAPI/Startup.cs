@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebApi.DependencyInjections.ServiceComponents;
 using WebApi.DependencyInjections.DatabaseIdentity;
 using Domain.Models;
-using Microsoft.EntityFrameworkCore;
 using Project.WebAPI;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Project.Domain.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi
 {
@@ -39,11 +39,9 @@ namespace WebApi
             services.AddBusinessComponents();
 
             // Setup database context
-            services.AddDbContext<UtilitiesContext>(provider => provider.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
 
-            //services.AddDbContext<UtilitiesContext>(provider => provider.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));
-            //services.AddDbContext<UtilitiesContext>(provider => provider.UseSqlite(Configuration.GetConnectionString("SQLiteConnection")));
-            //services.AddDbContext<UtilitiesContext>(provider => provider.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection")));
+            services.AddDbContext<UtilitiesContext>(provider => provider.UseMySql(Configuration.GetConnectionString("MySQLConnection")));
+
 
             // Setup Identity (UserManager, Roles etc.)
             services.SetupIdentity();
